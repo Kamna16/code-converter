@@ -61,7 +61,7 @@ const CodeConverter = () => {
           <h1 className='text-3xl font-bold text-center p-2'>Convert your Code</h1>
           <div className='flex w-[80%] space-x-4'> 
             <div className="flex w-[50%] flex-col p-4 shadow-md rounded-lg bg-white"> 
-              <label className="font-semibold mb-2">Input Language</label>
+              <label className="text-black font-bold mb-2">Input Language</label>
               <select 
                 className="bg-gray-200 text-black p-2 mb-4 rounded-md"
                 value={inputLang}
@@ -84,7 +84,7 @@ const CodeConverter = () => {
             </div>
 
             <div className="flex w-[50%] flex-col p-4 shadow-md rounded-lg bg-white">
-              <label className="font-semibold mb-2">Output Language</label>
+              <label className="text-black font-bold mb-2">Output Language</label>
               <select 
                 className="bg-gray-200 text-black p-2 mb-4 rounded-md" 
                 value={outputLang}
