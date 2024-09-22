@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Editor } from '@monaco-editor/react';
 import axios from 'axios';
+import CircleLoader from "react-spinners/CircleLoader";
 
 const CodeConverter = () => {
   const [inputCode, setInputCode] = useState('');
   const [outputCode, setOutputCode] = useState('');
   const [inputLang, setInputLang] = useState('python');
   const [outputLang, setOutputLang] = useState('javascript');
+  const [loading, setLoading] = useState(false);
 
   const handleConvert = async () => {
     try {
@@ -15,13 +17,13 @@ const CodeConverter = () => {
           {
             parts: [
               {
-                text: `Convert this ${inputLang} [${inputCode}] to ${outputLang}`
+                text: `Convert this ${inputLang} [${inputCode}] to ${outputLang}. Do not give explanation, just give the code.`
               }
             ]
           }
         ]
       };
-
+      setLoading(true);
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${import.meta.env.VITE_API_KEY}`,
         method: "post",
@@ -31,69 +33,91 @@ const CodeConverter = () => {
         data: requestData
       });
 
+      if (response) {
+        setLoading(false);
+      }
+
       const output = response.data.candidates[0].content.parts[0].text;
       const cleanedOutput = output.replace(/```[a-z]*\n?|\n```/g, '').trim();
     
       setOutputCode(cleanedOutput);
     } catch (error) {
       console.error('Error converting code:', error);
+      setLoading(false);  // Stop loading in case of an error
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className='flex w-[80%] space-x-4'> {/* Add space between input and output */}
-        
-        <div className="flex w-[50%] flex-col p-4 shadow-md rounded-lg bg-white"> {/* Ensure select inputs are visible */}
-          <label className="font-semibold mb-2">Input Language</label>
-          <select 
-            className="bg-gray-200 p-2 mb-4 rounded-md" /* Add padding and background */
-            value={inputLang}
-            onChange={(e) => setInputLang(e.target.value)}>
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
-            <option value="java">Java</option>
-          </select>
+    <div className="flex flex-col items-center justify-center min-h-screen space-y-6">
+      {loading ? (
+        <CircleLoader
+        color='purple'
+        loading={loading}
+        size={150}
+        aria-label="Loading Spinner"
+         />
+      ) : (
+        <>
+          <h1 className='text-3xl font-bold text-center p-2'>Convert your Code</h1>
+          <div className='flex w-[80%] space-x-4'> 
+            <div className="flex w-[50%] flex-col p-4 shadow-md rounded-lg bg-white"> 
+              <label className="font-semibold mb-2">Input Language</label>
+              <select 
+                className="bg-gray-200 text-black p-2 mb-4 rounded-md"
+                value={inputLang}
+                onChange={(e) => setInputLang(e.target.value)}>
+                <option value="javascript">JavaScript</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="python">Python</option>
+                <option value="csharp">C#</option>
+              </select>
 
-          <Editor
-            height="400px"
-            defaultLanguage={inputLang}
-            language={inputLang}
-            theme="vs-dark"
-            value={inputCode}
-            onChange={(value) => setInputCode(value)}
-          />
-        </div>
+              <Editor
+                height="400px"
+                defaultLanguage={inputLang}
+                language={inputLang}
+                theme="vs-dark"
+                value={inputCode}
+                onChange={(value) => setInputCode(value)}
+              />
+            </div>
 
-        <div className="flex w-[50%] flex-col p-4 shadow-md rounded-lg bg-white"> {/* Same styles for output editor */}
-          <label className="font-semibold mb-2">Output Language</label>
-          <select 
-            className="bg-gray-200 p-2 mb-4 rounded-md" /* Add padding and background */
-            value={outputLang}
-            onChange={(e) => setOutputLang(e.target.value)}>
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
-            <option value="java">Java</option>
-          </select>
+            <div className="flex w-[50%] flex-col p-4 shadow-md rounded-lg bg-white">
+              <label className="font-semibold mb-2">Output Language</label>
+              <select 
+                className="bg-gray-200 text-black p-2 mb-4 rounded-md" 
+                value={outputLang}
+                onChange={(e) => setOutputLang(e.target.value)}>
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="csharp">C#</option>
+              </select>
 
-          <Editor
-            height="400px"
-            defaultLanguage={outputLang}
-            language={outputLang}
-            theme="vs-dark"
-            value={outputCode}
-            options={{
-              readOnly: true
-            }}
-          />
-        </div>
-      </div>
+              <Editor
+                height="400px"
+                defaultLanguage={outputLang}
+                language={outputLang}
+                theme="vs-dark"
+                value={outputCode}
+                options={{
+                  readOnly: true
+                }}
+              />
+            </div>
+          </div>
 
-      <button 
-        className="mt-6 px-6 py-2 bg-blue-500 text-white font-semibold rounded-md shadow hover:bg-blue-600 transition duration-200"
-        onClick={handleConvert}>
-        Convert Code
-      </button>
+          <div className="w-full flex justify-center"> 
+            <button 
+              className="px-6 py-2 bg-transparent border text-white font-semibold rounded-md"
+              onClick={handleConvert}>
+              Convert
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
