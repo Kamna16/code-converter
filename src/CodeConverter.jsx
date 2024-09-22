@@ -43,7 +43,7 @@ const CodeConverter = () => {
       setOutputCode(cleanedOutput);
     } catch (error) {
       console.error('Error converting code:', error);
-      setLoading(false);  // Stop loading in case of an error
+      setLoading(false);  
     }
   };
 
