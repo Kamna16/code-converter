@@ -1,8 +1,17 @@
-# React + Vite
+# Code Converter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A powerful **Code Converter** that translates code from one programming language to another. Built using **Gemini API** and **ReactJS**, this tool enables seamless code transformation, making it easier for developers to work across different languages.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Convert code between multiple programming languages.
+- Real-time conversion powered by the **Gemini API**.
+- User-friendly interface built with **ReactJS**.
+- Supports various popular programming languages.
+
+### Tech Stack
+
+- **Frontend**: ReactJS
+- **API**: Gemini API
+- **Styling**: Tailwind CSS
+- **Libraries**: Monaco Code Editor
