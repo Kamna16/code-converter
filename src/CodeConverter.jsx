@@ -69,8 +69,13 @@ const CodeConverter = () => {
                 <option value="javascript">JavaScript</option>
                 <option value="java">Java</option>
                 <option value="cpp">C++</option>
+                <option value="c">C</option>
                 <option value="python">Python</option>
                 <option value="csharp">C#</option>
+                <option value="ruby">Ruby</option>
+                <option value="typescript">TypeScript</option>
+                <option value="rust">Rust</option>
+                <option value="swift">Swift</option>
               </select>
 
               <Editor
@@ -89,11 +94,16 @@ const CodeConverter = () => {
                 className="bg-gray-200 text-black p-2 mb-4 rounded-md" 
                 value={outputLang}
                 onChange={(e) => setOutputLang(e.target.value)}>
-                <option value="python">Python</option>
                 <option value="javascript">JavaScript</option>
                 <option value="java">Java</option>
                 <option value="cpp">C++</option>
+                <option value="c">C</option>
+                <option value="python">Python</option>
                 <option value="csharp">C#</option>
+                <option value="ruby">Ruby</option>
+                <option value="typescript">TypeScript</option>
+                <option value="rust">Rust</option>
+                <option value="swift">Swift</option>
               </select>
 
               <Editor
